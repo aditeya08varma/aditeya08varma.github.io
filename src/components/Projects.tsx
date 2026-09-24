@@ -1,7 +1,7 @@
+import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { ExternalLink, Github } from "lucide-react";
 import { featuredProjects, moreProjects } from "../data/content";
-import type { CSSProperties } from "react";
 
 type Project = {
   name: string;
@@ -65,10 +65,74 @@ function ProjectCard({ p }: { p: Project }) {
 }
 
 function ProjectsCarousel() {
-  const duration = `${allProjects.length * 10}s`;
+  const viewportRef = useRef<HTMLDivElement | null>(null);
+  const pausedRef = useRef(false);
+  const resumeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    const el = viewportRef.current;
+    if (!el) return;
+
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const speed = 44; // px/sec
+    let raf = 0;
+    let lastTime = performance.now();
+
+    function step(time: number) {
+      const el2 = viewportRef.current;
+      if (el2) {
+        const dt = (time - lastTime) / 1000;
+        if (!pausedRef.current && !prefersReducedMotion) {
+          el2.scrollLeft += speed * dt;
+        }
+        const half = el2.scrollWidth / 2;
+        if (half > 0 && el2.scrollLeft >= half) {
+          el2.scrollLeft -= half;
+        }
+      }
+      lastTime = time;
+      raf = requestAnimationFrame(step);
+    }
+    raf = requestAnimationFrame(step);
+
+    const pause = () => {
+      pausedRef.current = true;
+      if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current);
+    };
+    const scheduleResume = () => {
+      if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current);
+      resumeTimeoutRef.current = setTimeout(() => {
+        pausedRef.current = false;
+      }, 1500);
+    };
+
+    el.addEventListener("touchstart", pause, { passive: true });
+    el.addEventListener("touchend", scheduleResume);
+    el.addEventListener("pointerdown", pause);
+    el.addEventListener("pointerup", scheduleResume);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current);
+      el.removeEventListener("touchstart", pause);
+      el.removeEventListener("touchend", scheduleResume);
+      el.removeEventListener("pointerdown", pause);
+      el.removeEventListener("pointerup", scheduleResume);
+    };
+  }, []);
+
   return (
-    <div className="marquee-viewport -mx-4 px-4 sm:-mx-6 sm:px-6">
-      <div className="marquee-track gap-6 py-1" style={{ "--marquee-duration": duration } as CSSProperties}>
+    <div
+      ref={viewportRef}
+      className="marquee-viewport -mx-4 px-4 sm:-mx-6 sm:px-6"
+      onMouseEnter={() => {
+        pausedRef.current = true;
+      }}
+      onMouseLeave={() => {
+        pausedRef.current = false;
+      }}
+    >
+      <div className="marquee-track gap-6 py-1">
         {[...allProjects, ...allProjects].map((p, i) => (
           <ProjectCard key={`${p.name}-${i}`} p={p} />
         ))}

@@ -9,6 +9,7 @@ export const profile = {
   email: "aditeya.varma@gmail.com",
   github: "https://github.com/aditeya08varma",
   linkedin: "https://linkedin.com/in/aditeyavarma08",
+  resumeUrl: "/resume.pdf",
 };
 
 export const terminalLines = [
@@ -17,7 +18,7 @@ export const terminalLines = [
   { prompt: true, text: "cat current_focus.txt" },
   { prompt: false, text: "Open Source Contributor @ sageox/ox" },
   { prompt: true, text: "ls skills/" },
-  { prompt: false, text: "python go typescript c++ kubernetes aws react" },
+  { prompt: false, text: "python go typescript kubernetes aws react" },
   { prompt: true, text: "grep -i status availability.log" },
   { prompt: false, text: "[OPEN] Full-time Software Engineering roles", accent: true },
 ];
@@ -30,10 +31,11 @@ export const tagPills = [
 ];
 
 export const about = [
-  "I'm a Software Engineer with a Master's in Computer Science from the University of Southern California. I recently completed a Software Development Engineer internship at Amazon in San Diego, where I built telemetry and testing infrastructure on AWS for a backend engineering team.",
-  "I'm an active open-source contributor to sageox/ox, a Go CLI used across coding agents, where I've fixed concurrency races, database corruption bugs, and git-internals edge cases through several merged pull requests.",
-  "My personal projects span backend systems, networking, and applied AI: a multi-threaded TCP proxy and DNS resolver built directly on raw POSIX sockets, and Janus, an agentic RAG system that reasons over Formula 1 technical regulations using LangGraph and Pinecone.",
-  "I'm passionate about systems programming, distributed infrastructure, and building tools other engineers actually rely on, and I'm always looking to learn, build, and improve.",
+  "It all started with finding patterns in gigabytes of data. During my first internship at Home Centre, I built a web-scraping engine to track competitor pricing, and a clustering framework to turn messy transaction data into real assortment decisions.",
+  "That same instinct followed me to Amazon. I optimized the Scala-based query generation templates behind our ETL pipeline, and I built a testing framework that cut validation cycles from days to minutes.",
+  "It also led me into open source. That concurrency race I fixed in sageox/ox was one of several real bugs I've tracked down there, this one by engineering a test harness that could force the exact microsecond-wide collision on demand.",
+  "Along the way, my projects kept branching out: NBA lineup analytics with Django and Angular, network protocol tools with a custom DHCP state machine and Dijkstra-based routing, agentic AI systems like Janus, and a native macOS runtime built down at the Mach API level. I've also published three research papers along the way.",
+  "Now, as a Graduate Research Assistant at USC, I'm applying the same instinct to AI systems: a multi-agent LLM pipeline that knows when a cheap model is enough and when to escalate, and a benchmark built to catch review agents that miss real vulnerabilities instead of just failing tests.",
 ];
 
 export const education = [
@@ -87,10 +89,9 @@ export const experience = [
     location: "Remote",
     dates: "Aug 2026 – Present",
     bullets: [
-      "Eliminated silent database corruption as measured by zero concurrent ALTER TABLE crashes, by implementing an idempotent SQLite schema migration pattern to handle check-then-act race conditions.",
-      "Guaranteed deterministic concurrency testing as measured by the reliable reproduction of microsecond-wide race windows, by engineering a two-phase Go channel barrier to synchronize and release goroutines.",
-      "Closed a data-loss gap in git stash pop as measured by intercepting 100% of unresolved conflicts, by validating staged index blobs instead of working-tree state.",
-      "Hardened version control safety as measured by the accurate resolution of staged file renames and ambiguous path syntaxes, by parsing NUL-delimited git diff outputs across daemon and CLI paths.",
+      "Fixed a race condition in 3 SQLite migration functions that crashed the database on concurrent, cold-start initialization, by engineering a two-phase goroutine-barrier test harness that forced the exact microsecond-wide collision on demand.",
+      "Stopped a data-corruption bug across 2 separate auto-commit paths that had already baked broken conflict markers into 8 sessions' permanent history over 3 months, by guarding every commit against staged conflicts using git's index instead of the working tree.",
+      "Killed a fork bomb in the test suite that hung for 10 minutes, cutting runtime by 66% once fixed, by stopping the session-prime code from re-executing the compiled test binary against itself.",
     ],
     tags: ["Go", "SQLite", "Git Internals", "Concurrency"],
   },
@@ -99,8 +100,11 @@ export const experience = [
     org: "USC School of Advanced Computing",
     location: "Los Angeles, CA",
     dates: "Jul 2026 – Present",
-    bullets: [],
-    tags: [],
+    bullets: [
+      "Cut multi-agent LLM code-repair costs by 43% against an always-on agent team (for a 6.6-point lower pass rate) and by 47% against a LangGraph-style supervisor baseline, by engineering a cascading system where one cheap agent escalates to specialists only on low-confidence outputs.",
+      "Measured whether code-review agents catch real vulnerabilities instead of just visible test failures, by designing a 30-task Python benchmark with hidden held-out tests and a pytest-scored harness covering path traversal, command injection, and unsafe deserialization bugs.",
+    ],
+    tags: ["Python", "Multi-Agent Systems", "LLM Agents", "LangGraph", "PyTest"],
   },
   {
     role: "Software Development Engineer Intern",
@@ -274,9 +278,68 @@ export const openSource = {
   ],
 };
 
+// weight = how many real projects/experience entries on this site actually use it
+// (1 = single project, 2 = a couple, 3 = shows up across most of the codebase)
 export const skills = [
-  { label: "Languages", items: ["Go", "TypeScript", "Python", "C++", "SQL", "Bash"] },
-  { label: "AI & Automation", items: ["LangGraph", "LLM APIs", "Prompt Engineering", "GitHub Actions", "CI/CD"] },
-  { label: "Infrastructure & Backend", items: ["Kubernetes", "Docker", "AWS (CDK, EMR, SQS)", "OpenTelemetry", "Redis"] },
-  { label: "Networking & Testing", items: ["TCP/IP", "POSIX Sockets", "DNS", "PyTest", "Scapy"] },
+  {
+    label: "Languages",
+    items: [
+      { name: "Go", weight: 1 }, { name: "TypeScript", weight: 3 }, { name: "JavaScript", weight: 2 },
+      { name: "Python", weight: 3 }, { name: "C", weight: 1 },
+      { name: "Swift", weight: 1 }, { name: "Scala", weight: 1 }, { name: "SQL", weight: 2 }, { name: "Bash", weight: 2 },
+    ],
+  },
+  {
+    label: "AI & ML",
+    items: [
+      { name: "LangGraph", weight: 1 }, { name: "LangChain", weight: 1 }, { name: "Pinecone", weight: 1 },
+      { name: "PyTorch", weight: 2 }, { name: "HuggingFace Transformers", weight: 1 }, { name: "Claude API", weight: 1 },
+      { name: "Pipecat", weight: 1 }, { name: "Prompt Engineering", weight: 2 }, { name: "RAG", weight: 1 }, { name: "Ragas", weight: 1 },
+      { name: "LLM APIs", weight: 2 }, { name: "Multi-Agent Systems", weight: 1 },
+    ],
+  },
+  {
+    label: "Backend & Data",
+    items: [
+      { name: "FastAPI", weight: 3 }, { name: "Django", weight: 1 }, { name: "Django REST Framework", weight: 1 },
+      { name: "REST APIs", weight: 2 }, { name: "Next.js", weight: 1 }, { name: "PostgreSQL", weight: 2 },
+      { name: "Redis", weight: 2 }, { name: "SQLite", weight: 3 }, { name: "DynamoDB", weight: 1 }, { name: "Pydantic", weight: 2 },
+    ],
+  },
+  {
+    label: "Frontend",
+    items: [
+      { name: "React", weight: 3 }, { name: "Angular", weight: 1 }, { name: "Vite", weight: 3 },
+      { name: "Tailwind CSS", weight: 2 }, { name: "D3.js", weight: 1 }, { name: "Framer Motion", weight: 2 },
+    ],
+  },
+  {
+    label: "Systems & Networking",
+    items: [
+      { name: "TCP/IP", weight: 1 }, { name: "POSIX Sockets", weight: 1 }, { name: "DNS", weight: 1 },
+      { name: "Scapy", weight: 1 }, { name: "Seatbelt Sandboxing", weight: 1 }, { name: "Mach APIs", weight: 1 }, { name: "Open vSwitch", weight: 1 },
+    ],
+  },
+  {
+    label: "Infra & Streaming",
+    items: [
+      { name: "Kubernetes", weight: 1 }, { name: "Docker", weight: 2 }, { name: "AWS (S3, SQS, EMR, CDK, CloudWatch)", weight: 1 },
+      { name: "GitHub Actions", weight: 3 }, { name: "CI/CD", weight: 2 }, { name: "Prometheus", weight: 1 },
+      { name: "Grafana", weight: 1 }, { name: "OpenTelemetry", weight: 1 }, { name: "Apache Kafka", weight: 1 }, { name: "PyFlink", weight: 1 },
+    ],
+  },
+  {
+    label: "Tools & Practices",
+    items: [
+      { name: "Git", weight: 2 }, { name: "PyTest", weight: 3 }, { name: "Claude Code", weight: 2 }, { name: "Test Automation", weight: 1 },
+      { name: "Cursor", weight: 1 }, { name: "Linux", weight: 2 },
+    ],
+  },
+  {
+    label: "Concepts",
+    items: [
+      { name: "System Design", weight: 1 }, { name: "Distributed Systems", weight: 2 },
+      { name: "Data Pipelines & ETL", weight: 2 }, { name: "Debugging & Root-Cause Analysis", weight: 3 },
+    ],
+  },
 ];

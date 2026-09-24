@@ -38,6 +38,7 @@ type Point = { x: number; y: number };
 type LabelKind = "hash" | "branch" | "diff";
 type Label = { x: number; y: number; text: string; kind: LabelKind; born: number; life: number };
 type Comet = { x: number; y: number; born: number; life: number };
+type Particle = { x: number; y: number; vy: number; r: number; alpha: number };
 
 const HEX = "0123456789abcdef";
 function randomHash(len: number) {
@@ -73,6 +74,7 @@ export function GitGraphField() {
     let strands: Strand[] = [];
     let labels: Label[] = [];
     let comets: Comet[] = [];
+    let particles: Particle[] = [];
     let lastSpawn = 0;
     let lastComet = 0;
 
@@ -111,9 +113,20 @@ export function GitGraphField() {
         build(3, width * 0.04, width * 0.22, 11, 8, 0.5),
         build(3, width * 0.72, width * 0.98, 47, 5.5, 0.35),
         build(2, width * 0.4, width * 0.6, 91, 6.8, 0.22),
+        build(2, width * 0.26, width * 0.37, 23, 7.2, 0.28),
+        build(2, width * 0.63, width * 0.71, 68, 6.2, 0.24),
       ];
       labels = [];
       comets = [];
+
+      const particleCount = Math.round((width * height) / 26000);
+      particles = Array.from({ length: particleCount }, () => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vy: 2 + Math.random() * 6,
+        r: 0.5 + Math.random() * 1.1,
+        alpha: 0.15 + Math.random() * 0.35,
+      }));
     }
 
     function drawStrand(strand: Strand, time: number, branchPoints: Point[]) {
@@ -201,21 +214,40 @@ export function GitGraphField() {
       ctx!.fill();
     }
 
+    function drawParticles(isLight: boolean) {
+      const color = isLight ? "70,70,90" : "200,205,220";
+      for (const p of particles) {
+        if (!prefersReducedMotion) {
+          p.y -= p.vy / 60;
+          if (p.y < -4) {
+            p.y = height + 4;
+            p.x = Math.random() * width;
+          }
+        }
+        ctx!.fillStyle = `rgba(${color},${p.alpha})`;
+        ctx!.beginPath();
+        ctx!.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx!.fill();
+      }
+    }
+
     function draw(time: number) {
       ctx!.clearRect(0, 0, width, height);
       const branchPoints: Point[] = [];
+      const isLight = document.documentElement.getAttribute("data-theme") === "light";
+
+      drawParticles(isLight);
 
       for (const strand of strands) {
         if (!prefersReducedMotion) {
-          strand.offset += strand.speed / 60;
+          const totalHeight = strand.rows.length * strand.rowHeight;
+          strand.offset = (strand.offset + strand.speed / 60) % totalHeight;
         }
         drawStrand(strand, time, branchPoints);
       }
 
       if (!prefersReducedMotion) {
-        const isLight = document.documentElement.getAttribute("data-theme") === "light";
-
-        if (time - lastSpawn > 1700 && branchPoints.length > 0 && labels.length < 4) {
+        if (time - lastSpawn > 1100 && branchPoints.length > 0 && labels.length < 7) {
           lastSpawn = time;
           const p = branchPoints[Math.floor(Math.random() * branchPoints.length)];
           const { text, kind } = randomLabel();
@@ -232,7 +264,7 @@ export function GitGraphField() {
           ctx!.fillText(l.kind === "branch" ? `⎇ ${l.text}` : l.text, l.x + 9, y + 3);
         }
 
-        if (time - lastComet > 2600 && comets.length < 2) {
+        if (time - lastComet > 1500 && comets.length < 4) {
           lastComet = time;
           const strand = strands[Math.floor(Math.random() * strands.length)];
           const laneX = strand.laneXs[Math.floor(Math.random() * strand.laneXs.length)];

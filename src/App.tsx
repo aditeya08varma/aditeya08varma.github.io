@@ -7,8 +7,8 @@ import { Experience } from "./components/Experience";
 import { Projects } from "./components/Projects";
 import { OpenSource } from "./components/OpenSource";
 import { Skills } from "./components/Skills";
+import { Publications } from "./components/Publications";
 import { Contact } from "./components/Contact";
-import { Footer } from "./components/Footer";
 
 export default function App() {
   return (
@@ -23,8 +23,8 @@ export default function App() {
         <OpenSource />
         <Projects />
         <Skills />
+        <Publications />
         <Contact />
-        <Footer />
       </div>
     </div>
   );

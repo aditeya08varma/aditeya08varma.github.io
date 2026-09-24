@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Github, Linkedin, Mail, GitCommitHorizontal, CheckCircle2 } from "lucide-react";
+import { Github, Linkedin, Mail, GitCommitHorizontal, CheckCircle2, Download } from "lucide-react";
 import { profile, tagPills, terminalLines } from "../data/content";
 
 function TerminalBody() {
@@ -120,6 +120,14 @@ export function Hero() {
               style={{ borderColor: "var(--border)" }}
             >
               Get In Touch
+            </a>
+            <a
+              href={profile.resumeUrl}
+              download
+              className="inline-flex items-center gap-2 rounded-lg border px-5 py-2.5 text-sm font-semibold"
+              style={{ borderColor: "var(--border)" }}
+            >
+              <Download size={15} /> Resume
             </a>
           </motion.div>
 

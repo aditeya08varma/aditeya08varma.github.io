@@ -66,7 +66,7 @@ export function OpenSource() {
                 <GitPullRequest size={16} style={{ color: "var(--brand-a)" }} />
               </div>
               <div className="min-w-0 flex-1">
-                <div className="truncate text-sm font-medium">{pr.title}</div>
+                <div className="line-clamp-2 text-sm font-medium sm:truncate sm:line-clamp-none">{pr.title}</div>
                 <div className="mt-0.5 font-mono text-xs" style={{ color: "var(--muted)" }}>
                   {openSource.repo} #{pr.number} · +{pr.additions} −{pr.deletions}
                 </div>

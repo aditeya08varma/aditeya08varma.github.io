@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Github, Linkedin, Mail } from "lucide-react";
+import { Github, Linkedin, Mail, Download } from "lucide-react";
 import { profile } from "../data/content";
 
 export function Contact() {
@@ -27,6 +27,14 @@ export function Contact() {
           style={{ background: "linear-gradient(135deg, var(--brand-a), var(--brand-b))" }}
         >
           <Mail size={16} /> {profile.email}
+        </a>
+        <a
+          href={profile.resumeUrl}
+          download
+          className="inline-flex items-center gap-2 rounded-lg border px-6 py-3 text-sm font-semibold"
+          style={{ borderColor: "var(--border)" }}
+        >
+          <Download size={16} /> Download Resume
         </a>
       </div>
 
