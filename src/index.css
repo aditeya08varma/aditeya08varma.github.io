@@ -5,25 +5,27 @@
 @tailwind utilities;
 
 :root {
-  --bg: #05060a;
-  --bg-soft: #0a0c14;
-  --card: #12141f;
-  --border: #22263a;
-  --fg: #e8e9f0;
-  --muted: #8b8fa3;
-  --brand-a: #7c8cff;
-  --brand-b: #33d6c0;
+  --bg: #08090a;
+  --bg-soft: #0d0e0f;
+  --card: #141516;
+  --border: #26282a;
+  --fg: #ececea;
+  --muted: #93938e;
+  --brand-a: #14b8a6;
+  --brand-b: #22d3ee;
+  --ok: #4ade80;
 }
 
 :root[data-theme="light"] {
-  --bg: #f7f7fb;
+  --bg: #f8f7f4;
   --bg-soft: #ffffff;
   --card: #ffffff;
-  --border: #e3e4ee;
-  --fg: #14151f;
-  --muted: #5b5d70;
-  --brand-a: #5b63e6;
-  --brand-b: #0fae9a;
+  --border: #e2e0da;
+  --fg: #17181a;
+  --muted: #5f5f5a;
+  --brand-a: #0f766e;
+  --brand-b: #0e7490;
+  --ok: #1f9d55;
 }
 
 * {
@@ -83,9 +85,24 @@ body {
 }
 
 .card {
+  position: relative;
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 1rem;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, z-index 0.25s;
+}
+
+.card:hover {
+  transform: translateY(-8px) scale(1.045);
+  border-color: var(--brand-a);
+  box-shadow: 0 24px 48px -16px color-mix(in srgb, var(--brand-a) 55%, transparent), 0 8px 20px -6px rgba(0,0,0,0.4);
+  z-index: 30;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card:hover {
+    transform: none;
+  }
 }
 
 .chip {
@@ -115,4 +132,37 @@ body {
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--brand-a);
+}
+
+.marquee-viewport {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll var(--marquee-duration, 36s) linear infinite;
+}
+
+.marquee-viewport:hover .marquee-track,
+.marquee-track.paused {
+  animation-play-state: paused;
+}
+
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+  .marquee-viewport {
+    overflow-x: auto;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
 }

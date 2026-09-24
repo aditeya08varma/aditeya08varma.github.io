@@ -6,6 +6,7 @@ const LINKS = [
   { href: "#about", label: "About" },
   { href: "#education", label: "Education" },
   { href: "#experience", label: "Experience" },
+  { href: "#open-source", label: "Open Source" },
   { href: "#projects", label: "Projects" },
   { href: "#skills", label: "Skills" },
   { href: "#contact", label: "Contact" },
@@ -19,7 +20,7 @@ export function Nav() {
       className="sticky top-0 z-50 backdrop-blur"
       style={{ background: "color-mix(in srgb, var(--bg) 80%, transparent)", borderBottom: "1px solid var(--border)" }}
     >
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3 md:px-8">
         <a href="#top" className="font-semibold tracking-tight">
           Aditeya Varma
         </a>
@@ -47,7 +48,7 @@ export function Nav() {
 
       {open && (
         <nav
-          className="flex flex-col gap-1 border-t px-4 py-3 md:hidden"
+          className="flex flex-col gap-1 border-t px-5 py-3 md:hidden"
           style={{ borderColor: "var(--border)" }}
         >
           {LINKS.map((l) => (

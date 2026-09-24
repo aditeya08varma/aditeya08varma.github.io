@@ -10,14 +10,14 @@ export default {
       },
       colors: {
         ink: {
-          950: "#05060a",
-          900: "#0a0c14",
-          800: "#12141f",
-          700: "#1b1e2c",
+          950: "#08090a",
+          900: "#0d0e0f",
+          800: "#141516",
+          700: "#1c1e1f",
         },
       },
       backgroundImage: {
-        "grad-brand": "linear-gradient(135deg, #7c8cff 0%, #33d6c0 100%)",
+        "grad-brand": "linear-gradient(135deg, #f0a84e 0%, #4ade80 100%)",
       },
     },
   },

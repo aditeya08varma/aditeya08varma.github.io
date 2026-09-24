@@ -1,7 +1,7 @@
 export const profile = {
-  name: "Aditeya Varma Kalidindi",
-  firstLine: "ADITEYA VARMA",
-  secondLine: "KALIDINDI",
+  name: "Aditeya Varma",
+  firstLine: "ADITEYA",
+  secondLine: "VARMA",
   location: "Los Angeles, CA",
   status: "Open to full-time Software Engineering roles",
   tagline:
@@ -40,13 +40,13 @@ export const education = [
   {
     school: "University of Southern California",
     degree: "Master of Science in Computer Science",
-    meta: "GPA: 3.9 · Los Angeles, CA",
+    meta: "GPA: 3.67 · Los Angeles, CA",
     dates: "Aug 2024 – May 2026",
   },
   {
     school: "D Y Patil University",
     degree: "B.Tech in Computer Engineering",
-    meta: "India",
+    meta: "GPA: 3.9 · India",
     dates: "2020 – 2024",
   },
   {
@@ -82,6 +82,27 @@ export const publications = [
 
 export const experience = [
   {
+    role: "Open Source Contributor",
+    org: "sageox/ox",
+    location: "Remote",
+    dates: "Aug 2026 – Present",
+    bullets: [
+      "Eliminated silent database corruption as measured by zero concurrent ALTER TABLE crashes, by implementing an idempotent SQLite schema migration pattern to handle check-then-act race conditions.",
+      "Guaranteed deterministic concurrency testing as measured by the reliable reproduction of microsecond-wide race windows, by engineering a two-phase Go channel barrier to synchronize and release goroutines.",
+      "Closed a data-loss gap in git stash pop as measured by intercepting 100% of unresolved conflicts, by validating staged index blobs instead of working-tree state.",
+      "Hardened version control safety as measured by the accurate resolution of staged file renames and ambiguous path syntaxes, by parsing NUL-delimited git diff outputs across daemon and CLI paths.",
+    ],
+    tags: ["Go", "SQLite", "Git Internals", "Concurrency"],
+  },
+  {
+    role: "Graduate Research Assistant",
+    org: "USC School of Advanced Computing",
+    location: "Los Angeles, CA",
+    dates: "Jul 2026 – Present",
+    bullets: [],
+    tags: [],
+  },
+  {
     role: "Software Development Engineer Intern",
     org: "Amazon",
     location: "San Diego, CA",
@@ -93,19 +114,6 @@ export const experience = [
       "Shortened deployment validation cycles as measured by a reduction in debugging time from days to minutes, by developing a scalable testing framework using AWS CDK and TypeScript.",
     ],
     tags: ["Scala", "Neo4j", "AWS EMR", "DynamoDB", "SQS", "CloudWatch", "AWS CDK", "TypeScript"],
-  },
-  {
-    role: "Open Source Contributor",
-    org: "sageox/ox",
-    location: "Remote",
-    dates: "2026 – Present",
-    bullets: [
-      "Eliminated silent database corruption as measured by zero concurrent ALTER TABLE crashes, by implementing an idempotent SQLite schema migration pattern to handle check-then-act race conditions.",
-      "Guaranteed deterministic concurrency testing as measured by the reliable reproduction of microsecond-wide race windows, by engineering a two-phase Go channel barrier to synchronize and release goroutines.",
-      "Closed a data-loss gap in git stash pop as measured by intercepting 100% of unresolved conflicts, by validating staged index blobs instead of working-tree state.",
-      "Hardened version control safety as measured by the accurate resolution of staged file renames and ambiguous path syntaxes, by parsing NUL-delimited git diff outputs across daemon and CLI paths.",
-    ],
-    tags: ["Go", "SQLite", "Git Internals", "Concurrency"],
   },
   {
     role: "Data Science Intern",
@@ -167,40 +175,104 @@ export const featuredProjects = [
 export const moreProjects = [
   {
     name: "darwin-server-runtime",
+    subtitle: "Native macOS Process Isolation Runtime",
     description:
       "Native Darwin process isolation runtime for macOS. Seatbelt sandboxing, launchd-managed daemon, and Mach-level telemetry, built to avoid Docker's Linux VM overhead on Apple Silicon.",
+    bullets: [
+      "Slashed container overhead and startup latency as measured by a 55.4 ms cold-spawn (2.3x faster than Colima) and a 2.9 MB idle footprint (160x smaller than Docker), by engineering a native Darwin process isolation runtime in Swift and C using launchd and Seatbelt (sandbox-exec).",
+      "Secured the image ingestion pipeline as measured by cryptographic verification of 100% of pulled bundles, by integrating libarchive path-traversal guards, Ed25519 manifest signatures, and a default-on Seatbelt sandbox for process execution.",
+      "Instrumented real-time system observability for isolated workloads as measured by the accurate streaming of true process memory (phys_footprint) and CPU usage, by architecting a telemetry daemon that polls Mach task_info APIs and exports via OTLP/HTTP.",
+    ],
     tags: ["Swift", "macOS", "Sandboxing", "launchd"],
     repo: "https://github.com/aditeya08varma/darwin-server-runtime",
   },
   {
     name: "voyager",
+    subtitle: "Real-Time Video Processing Pipeline",
     description:
       "Real-time video frame processing pipeline with AI inference caching: Kafka, PyFlink, Redis, and MobileNetV2 embeddings, instrumented with Prometheus/Grafana.",
+    bullets: [
+      "Engineered real-time stream processing for multi-camera video feeds against a sub-50ms per-frame latency target across decode and inference stages, by building a distributed pipeline using a 6-partition Apache Kafka topic and PyFlink.",
+      "Lowered redundant MobileNetV2 inference calls as measured by a 75% cache hit rate on a controlled repeat-frame benchmark, by engineering a perceptual dHash embedding cache with Redis and Hamming-distance fuzzy matching.",
+      "Surfaced pipeline health as measured by real-time P50/P95/P99 latency and producer throughput dashboards, by building Prometheus and Grafana instrumentation alongside an automated stress-test suite.",
+    ],
     tags: ["Kafka", "PyFlink", "Redis", "Computer Vision"],
     repo: "https://github.com/aditeya08varma/voyager",
   },
   {
     name: "nba-lineup-explorer",
+    subtitle: "NBA Possession-Level Lineup Analytics",
     description:
       "NBA lineup analytics over real 2024-25 play-by-play data: Django/Postgres backend, Angular frontend.",
+    bullets: [
+      "Reconstructed full 2024-25 season play-by-play into possession-level lineup data as measured by exact agreement with the official box score for points, steals, and blocks on a validation game, by deriving on-court 5-man lineups from the NBA's GameRotation endpoint instead of parsing substitution text.",
+      "Corrected home/away team labeling across all 1,230 games in the ingested season as measured by 5 games with identical matchup strings on both team-perspective rows, by resolving each game's home/away assignment from team-abbreviation lookups instead of the raw matchup string.",
+      "Exposed 7 independently sortable lineup rankings computed live across 272,934 raw possessions, by streaming Postgres query results through Django's chunked iterator instead of materializing the season into memory.",
+    ],
     tags: ["Django", "Angular", "PostgreSQL", "Sports Analytics"],
     repo: "https://github.com/aditeya08varma/nba-lineup-explorer",
   },
   {
     name: "readcoach",
+    subtitle: "Live Voice AI Reading Tutor (Nerdy AI Hackathon)",
     description:
       "Live voice AI reading tutor for grades 1-3, built for the Nerdy AI Hackathon.",
+    bullets: [
+      "Diagnosed reading miscues as measured by 90.5% accuracy (95/105) on hand-labeled test cases, by building a custom Wagner-Fischer edit-distance alignment engine with self-correction detection requiring no LLM calls per word.",
+      "Held per-call LLM response time to a P50 of 1.8s and P95 of 2.7s across pooled hint, question, and grading calls, by tiering Claude models: Haiku for hints and fast checks, Sonnet for questions and grading.",
+      "Patched a confirmed lost-update race in per-skill mastery scoring as measured by results matching to six decimal places across 8 concurrent sessions, by replacing a read-then-write Python blend with a single atomic Postgres upsert.",
+    ],
     tags: ["Voice AI", "Education", "Python"],
     repo: "https://github.com/aditeya08varma/readcoach",
   },
   {
     name: "network-topology-simulator",
+    subtitle: "From-Scratch Virtual Network Lab",
     description:
       "Automated virtual network lab on Linux network namespaces and Open vSwitch, with a from-scratch DHCP state machine and link-state routing protocol.",
+    bullets: [
+      "Verified protocol correctness of a from-scratch DHCP handshake and wire codec as measured by 15 passing tests (3 requiring root, skipped here) with zero failures across Discover/Offer/Request/Ack and lease-expiration cases, by round-tripping hand-packed BOOTP frames through a custom parser over a loopback transport.",
+      "Recomputed link-state routing tables after a simulated link failure as measured by a 1.92-microsecond median Dijkstra reconvergence time across 1,000 trials on a 4-router topology, by rerunning Dijkstra's algorithm over the topology graph inside a link-failure handler.",
+      "Blocked double-allocation of a single DHCP lease across concurrent clients as measured by a database-enforced UNIQUE constraint violation on any conflicting insert, by committing lease writes as atomic SQLite transactions.",
+    ],
     tags: ["Networking", "Linux", "DHCP", "Routing"],
     repo: "https://github.com/aditeya08varma/network-topology-simulator",
   },
 ];
+
+export const openSource = {
+  repo: "sageox/ox",
+  repoUrl: "https://github.com/sageox/ox",
+  description:
+    "Active open-source contributor to sageox/ox, a Go CLI used across coding agents. Found and fixed real concurrency bugs, database corruption, and git-internals edge cases in a live, actively maintained codebase.",
+  mergedPRs: 3,
+  pullRequests: [
+    {
+      number: 792,
+      title: "fix(codedb): tolerate concurrent schema migrations",
+      url: "https://github.com/sageox/ox/pull/792",
+      additions: 202,
+      deletions: 9,
+      story: "https://github.com/aditeya08varma/OSC/blob/master/OSC1.md",
+    },
+    {
+      number: 811,
+      title: "fix(ledger): refuse to auto-commit unresolved conflict markers",
+      url: "https://github.com/sageox/ox/pull/811",
+      additions: 600,
+      deletions: 0,
+      story: "https://github.com/aditeya08varma/OSC/blob/master/OSC2.md",
+    },
+    {
+      number: 859,
+      title: "fix(session): stop go test recursively re-invoking itself via inline prime",
+      url: "https://github.com/sageox/ox/pull/859",
+      additions: 90,
+      deletions: 0,
+      story: "https://github.com/aditeya08varma/OSC/blob/master/OSC3.md",
+    },
+  ],
+};
 
 export const skills = [
   { label: "Languages", items: ["Go", "TypeScript", "Python", "C++", "SQL", "Bash"] },

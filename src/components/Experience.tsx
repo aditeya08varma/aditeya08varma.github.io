@@ -4,8 +4,10 @@ import { experience } from "../data/content";
 export function Experience() {
   return (
     <section id="experience" className="section">
-      <span className="eyebrow">Career so far</span>
-      <h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">Experience</h2>
+      <div className="text-center">
+        <span className="eyebrow">Career so far</span>
+        <h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">Experience</h2>
+      </div>
 
       <div className="relative mt-10 space-y-10 border-l pl-8" style={{ borderColor: "var(--border)" }}>
         {experience.map((job, i) => (

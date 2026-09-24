@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Github, Linkedin, Mail } from "lucide-react";
-import { ParticleField } from "./ParticleField";
+import { Github, Linkedin, Mail, GitCommitHorizontal, CheckCircle2 } from "lucide-react";
 import { profile, tagPills, terminalLines } from "../data/content";
 
 function TerminalBody() {
   const [shown, setShown] = useState(0);
+  const done = shown >= terminalLines.length;
 
   useEffect(() => {
-    if (shown >= terminalLines.length) return;
+    if (done) return;
     const t = setTimeout(() => setShown((s) => s + 1), shown === 0 ? 300 : 550);
     return () => clearTimeout(t);
-  }, [shown]);
+  }, [shown, done]);
 
   return (
     <div className="p-5 font-mono text-[13px] leading-relaxed sm:text-sm min-h-[190px]">
@@ -20,20 +20,24 @@ function TerminalBody() {
           key={i}
           style={{
             color: line.prompt
-              ? "var(--brand-b)"
+              ? "var(--brand-a)"
               : line.accent
-              ? "#4ade80"
+              ? "var(--ok)"
               : "var(--muted)",
           }}
         >
-          {line.prompt ? "➜ ~ " : ""}
+          {line.prompt ? "$ " : "  › "}
           {line.text}
         </div>
       ))}
-      {shown >= terminalLines.length && (
-        <span className="cursor-blink" style={{ color: "var(--fg)" }}>
-          ▊
-        </span>
+      {done && (
+        <div className="mt-2 flex items-center gap-1.5" style={{ color: "var(--ok)" }}>
+          <CheckCircle2 size={13} />
+          <span>build passed</span>
+          <span className="cursor-blink ml-1" style={{ color: "var(--fg)" }}>
+            ▊
+          </span>
+        </div>
       )}
     </div>
   );
@@ -50,9 +54,7 @@ export function Hero() {
   const active = pillIndex === 0 ? [tagPills[0], tagPills[1]] : [tagPills[2], tagPills[3]];
 
   return (
-    <section id="top" className="relative overflow-hidden">
-      <div className="absolute inset-0 bg-grid opacity-40" />
-      <ParticleField />
+    <section id="top" className="relative">
       <div className="section relative grid gap-10 pb-16 pt-16 md:grid-cols-2 md:items-center md:pt-24">
         <div>
           <motion.p
@@ -147,11 +149,16 @@ export function Hero() {
         >
           <div className="card overflow-hidden shadow-2xl">
             <div className="flex items-center gap-2 border-b px-4 py-3" style={{ borderColor: "var(--border)" }}>
-              <span className="h-3 w-3 rounded-full bg-red-500/70" />
-              <span className="h-3 w-3 rounded-full bg-yellow-500/70" />
-              <span className="h-3 w-3 rounded-full bg-green-500/70" />
-              <span className="ml-2 font-mono text-xs" style={{ color: "var(--muted)" }}>
-                aditeya@portfolio ~ zsh
+              <GitCommitHorizontal size={14} style={{ color: "var(--brand-a)" }} />
+              <span className="font-mono text-xs" style={{ color: "var(--fg)" }}>
+                build #142 · main
+              </span>
+              <span
+                className="ml-auto flex items-center gap-1 rounded-full px-2 py-0.5 font-mono text-[10px]"
+                style={{ color: "var(--ok)", background: "color-mix(in srgb, var(--ok) 15%, transparent)" }}
+              >
+                <span className="h-1.5 w-1.5 rounded-full" style={{ background: "var(--ok)" }} />
+                passing
               </span>
             </div>
             <TerminalBody />
