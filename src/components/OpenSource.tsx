@@ -22,6 +22,18 @@ function Counter({ to }: { to: number }) {
 }
 
 export function OpenSource() {
+  const [mergedPRs, setMergedPRs] = useState(openSource.mergedPRs);
+
+  useEffect(() => {
+    const q = encodeURIComponent("repo:sageox/ox type:pr author:aditeya08varma is:merged");
+    fetch(`https://api.github.com/search/issues?q=${q}&per_page=1`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        if (d && typeof d.total_count === "number" && d.total_count > 0) setMergedPRs(d.total_count);
+      })
+      .catch(() => {});
+  }, []);
+
   return (
     <section id="open-source" className="section">
       <div className="text-center">
@@ -36,7 +48,7 @@ export function OpenSource() {
             className="inline-flex items-center gap-1.5 rounded-full border px-3 py-1 font-mono text-sm font-semibold"
             style={{ borderColor: "var(--brand-a)", color: "var(--brand-a)" }}
           >
-            <Counter to={openSource.mergedPRs} /> Merged PRs
+            <Counter to={mergedPRs} /> Merged PRs
           </motion.span>
         </div>
         <p className="mx-auto mt-4 max-w-2xl text-base" style={{ color: "var(--muted)" }}>

@@ -1,8 +1,20 @@
 import { motion } from "framer-motion";
-import { Github, Linkedin, Mail, Download } from "lucide-react";
+import { useState } from "react";
+import { Download, Copy, Check } from "lucide-react";
 import { profile } from "../data/content";
+import { SocialLinks } from "./SocialLinks";
 
 export function Contact() {
+  const [copied, setCopied] = useState(false);
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(profile.email);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      window.location.href = `mailto:${profile.email}`;
+    }
+  };
   return (
     <section id="contact" className="section text-center">
       <span className="eyebrow">Let's talk</span>
@@ -20,32 +32,29 @@ export function Contact() {
         distributed infrastructure, or anything you're building.
       </p>
 
-      <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-        <a
-          href={`mailto:${profile.email}`}
-          className="inline-flex items-center gap-2 rounded-lg px-6 py-3 text-sm font-semibold text-black"
-          style={{ background: "linear-gradient(135deg, var(--brand-a), var(--brand-b))" }}
-        >
-          <Mail size={16} /> {profile.email}
-        </a>
+      <div className="mt-8 flex justify-center">
         <a
           href={profile.resumeUrl}
           download
-          className="inline-flex items-center gap-2 rounded-lg border px-6 py-3 text-sm font-semibold"
-          style={{ borderColor: "var(--border)" }}
+          className="inline-flex items-center gap-2 rounded-lg px-6 py-3 text-sm font-semibold text-black"
+          style={{ background: "linear-gradient(135deg, var(--brand-a), var(--brand-b))" }}
         >
           <Download size={16} /> Download Resume
         </a>
       </div>
 
-      <div className="mt-8 flex items-center justify-center gap-5" style={{ color: "var(--muted)" }}>
-        <a href={profile.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-          <Github size={20} />
-        </a>
-        <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-          <Linkedin size={20} />
-        </a>
-      </div>
+      <SocialLinks className="mt-8 justify-center" />
+
+      <button
+        type="button"
+        onClick={copyEmail}
+        className="mt-5 inline-flex items-center gap-1.5 font-mono text-xs"
+        style={{ color: "var(--muted)" }}
+        aria-live="polite"
+      >
+        {copied ? <Check size={13} /> : <Copy size={13} />}
+        {copied ? "Email copied" : "Copy email address"}
+      </button>
     </section>
   );
 }

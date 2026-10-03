@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
 
@@ -15,6 +15,19 @@ const LINKS = [
 
 export function Nav() {
   const [open, setOpen] = useState(false);
+  const [active, setActive] = useState("");
+
+  useEffect(() => {
+    const els = LINKS.map((l) => document.querySelector(l.href)).filter(Boolean) as Element[];
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) if (e.isIntersecting) setActive("#" + e.target.id);
+      },
+      { rootMargin: "-45% 0px -50% 0px" }
+    );
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
 
   return (
     <header
@@ -28,7 +41,13 @@ export function Nav() {
 
         <nav className="hidden gap-6 text-sm md:flex" style={{ color: "var(--muted)" }}>
           {LINKS.map((l) => (
-            <a key={l.href} href={l.href} className="transition-colors hover:text-inherit">
+            <a
+              key={l.href}
+              href={l.href}
+              aria-current={active === l.href ? "true" : undefined}
+              className="border-b-2 border-transparent pb-0.5 transition-colors hover:text-inherit"
+              style={active === l.href ? { color: "var(--fg)", borderColor: "var(--brand-a)" } : undefined}
+            >
               {l.label}
             </a>
           ))}

@@ -10,23 +10,19 @@ export const profile = {
   github: "https://github.com/aditeya08varma",
   linkedin: "https://linkedin.com/in/aditeyavarma08",
   resumeUrl: "/resume.pdf",
+  photo: "/photo.jpg",
 };
 
-export const terminalLines = [
-  { prompt: true, text: "whoami" },
-  { prompt: false, text: "Software Engineer, MS in CS @ USC" },
-  { prompt: true, text: "cat current_focus.txt" },
-  { prompt: false, text: "Open Source Contributor @ sageox/ox" },
-  { prompt: true, text: "ls skills/" },
-  { prompt: false, text: "python go typescript kubernetes aws react" },
-  { prompt: true, text: "grep -i status availability.log" },
-  { prompt: false, text: "[OPEN] Full-time Software Engineering roles", accent: true },
+export const currently = [
+  { label: "Researching", text: "Multi-agent LLM systems at USC's School of Advanced Computing" },
+  { label: "Contributing", text: "To sageox/ox, a Go CLI used across coding agents" },
+  { label: "Focus", text: "Backend systems, networking, and applied AI" },
 ];
 
 export const tagPills = [
   { plus: true, text: "Software Engineer" },
   { plus: false, text: "Systems & Backend" },
-  { plus: true, text: "USC MS in CS" },
+  { plus: true, text: "USC MS in CS, 2026" },
   { plus: false, text: "Open Source Contributor" },
 ];
 
@@ -42,14 +38,14 @@ export const education = [
   {
     school: "University of Southern California",
     degree: "Master of Science in Computer Science",
-    meta: "GPA: 3.67 · Los Angeles, CA",
+    meta: "GPA: 3.6/4.0 · Los Angeles, CA",
     dates: "Aug 2024 – May 2026",
   },
   {
-    school: "D Y Patil University",
+    school: "Ramrao Adik Institute of Technology",
     degree: "B.Tech in Computer Engineering",
-    meta: "GPA: 3.9 · India",
-    dates: "2020 – 2024",
+    meta: "GPA: 9.64/10 · Mumbai, India",
+    dates: "Sep 2020 – Jun 2024",
   },
   {
     school: "IIT Madras",
@@ -113,21 +109,20 @@ export const experience = [
     dates: "May 2025 – Aug 2025",
     bullets: [
       "Accelerated data processing as measured by a 22% reduction in ETL pipeline latency, by refactoring Scala-based query generation templates for Neo4j.",
-      "Prevented production defects as measured by intercepting 98% of performance regressions prior to release, by building a serverless log analysis pipeline using AWS EMR and DynamoDB.",
-      "Achieved high-fidelity system observability as measured by zero data ingestion loss for critical metrics, by architecting a distributed telemetry pipeline using AWS SQS and CloudWatch.",
-      "Shortened deployment validation cycles as measured by a reduction in debugging time from days to minutes, by developing a scalable testing framework using AWS CDK and TypeScript.",
+      "Intercepted 98% of performance regressions prior to release with zero metric ingestion loss by architecting an end-to-end telemetry pipeline using AWS SQS and CloudWatch, coupled with a serverless AWS EMR and DynamoDB log analysis engine.",
+      "Streamlined integration testing from multi-day feedback loops to sub-15-minute automated checks, by developing a scalable testing framework using AWS CDK and TypeScript.",
     ],
     tags: ["Scala", "Neo4j", "AWS EMR", "DynamoDB", "SQS", "CloudWatch", "AWS CDK", "TypeScript"],
   },
   {
-    role: "Data Science Intern",
-    org: "Homecentre, Landmark Group",
+    role: "Data Engineer Intern",
+    org: "Home Centre (Landmark Group)",
     location: "Bengaluru, India",
     dates: "Jan 2024 – May 2024",
     bullets: [
       "Scaled competitor pricing intelligence as measured by 99.5% data consistency across 1,000+ SKUs, by building a JavaScript web-scraping engine featuring custom retry logic and proxy rotation.",
       "Drove category revenue growth as measured by a 7.6% uplift, by analyzing 500k+ weekly transactions across 95+ locations to identify attribute-based purchasing correlations.",
-      "Streamlined inventory operations as measured by the consolidation of 95 individual store pipelines into 4 unified streams, by implementing an attribute-based clustering framework.",
+      "Simplified inventory operations as measured by the consolidation of 95 individual store pipelines into 4 unified streams, by implementing an attribute-based clustering framework.",
     ],
     tags: ["JavaScript", "Data Engineering", "Clustering"],
   },

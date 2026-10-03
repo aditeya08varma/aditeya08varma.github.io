@@ -1,44 +1,70 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Github, Linkedin, Mail, GitCommitHorizontal, CheckCircle2, Download } from "lucide-react";
-import { profile, tagPills, terminalLines } from "../data/content";
+import { Download, MapPin } from "lucide-react";
+import { profile, tagPills, currently } from "../data/content";
+import { SocialLinks } from "./SocialLinks";
 
-function TerminalBody() {
-  const [shown, setShown] = useState(0);
-  const done = shown >= terminalLines.length;
-
-  useEffect(() => {
-    if (done) return;
-    const t = setTimeout(() => setShown((s) => s + 1), shown === 0 ? 300 : 550);
-    return () => clearTimeout(t);
-  }, [shown, done]);
-
+function ProfileCard() {
   return (
-    <div className="p-5 font-mono text-[13px] leading-relaxed sm:text-sm min-h-[190px]">
-      {terminalLines.slice(0, shown).map((line, i) => (
+    <div className="card relative mx-auto w-full max-w-md overflow-hidden p-7 shadow-2xl md:ml-auto md:mr-0">
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 h-px"
+        style={{ background: "linear-gradient(90deg, transparent, var(--brand-a), transparent)" }}
+      />
+      <div
+        className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full opacity-60 blur-3xl"
+        style={{ background: "color-mix(in srgb, var(--brand-a) 16%, transparent)" }}
+      />
+
+      <div className="relative flex items-center gap-5">
         <div
-          key={i}
+          className="shrink-0 rounded-full p-[2px]"
           style={{
-            color: line.prompt
-              ? "var(--brand-a)"
-              : line.accent
-              ? "var(--ok)"
-              : "var(--muted)",
+            background: "linear-gradient(135deg, #990000 0%, #990000 50%, #FFCC00 100%)",
+            boxShadow: "0 8px 20px -8px rgba(153,0,0,0.55)",
           }}
         >
-          {line.prompt ? "$ " : "  › "}
-          {line.text}
+          <div
+            className="h-24 w-24 overflow-hidden rounded-full border-[3px] sm:h-28 sm:w-28"
+            style={{ borderColor: "var(--card)" }}
+          >
+            <img
+              src={profile.photo}
+              alt="Aditeya Varma"
+              className="h-full w-full object-cover"
+              style={{ transform: "scale(1.7)", transformOrigin: "52% 40%" }}
+            />
+          </div>
         </div>
-      ))}
-      {done && (
-        <div className="mt-2 flex items-center gap-1.5" style={{ color: "var(--ok)" }}>
-          <CheckCircle2 size={13} />
-          <span>build passed</span>
-          <span className="cursor-blink ml-1" style={{ color: "var(--fg)" }}>
-            ▊
-          </span>
+
+        <div className="min-w-0">
+          <div className="text-xl font-semibold tracking-tight">Software Engineer</div>
+          <div
+            className="mt-2 space-y-1 font-mono text-[11px] uppercase tracking-[0.14em]"
+            style={{ color: "var(--muted)" }}
+          >
+            <div>MS CS, USC 2026</div>
+            <div className="inline-flex items-center gap-1">
+              <MapPin size={11} /> {profile.location}
+            </div>
+          </div>
         </div>
-      )}
+      </div>
+
+      <dl className="relative mt-6 text-sm">
+        {currently.map((c) => (
+          <div
+            key={c.label}
+            className="grid grid-cols-[6.5rem_1fr] gap-x-4 border-t py-3"
+            style={{ borderColor: "var(--border)" }}
+          >
+            <dt className="pt-0.5 font-mono text-[10px] uppercase tracking-[0.18em]" style={{ color: "var(--brand-a)" }}>
+              {c.label}
+            </dt>
+            <dd style={{ color: "color-mix(in srgb, var(--fg) 78%, var(--muted))" }}>{c.text}</dd>
+          </div>
+        ))}
+      </dl>
     </div>
   );
 }
@@ -135,18 +161,9 @@ export function Hero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.5 }}
-            className="mt-8 flex items-center gap-4"
-            style={{ color: "var(--muted)" }}
+            className="mt-8"
           >
-            <a href={profile.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-              <Github size={20} />
-            </a>
-            <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-              <Linkedin size={20} />
-            </a>
-            <a href={`mailto:${profile.email}`} aria-label="Email">
-              <Mail size={20} />
-            </a>
+            <SocialLinks />
           </motion.div>
         </div>
 
@@ -155,22 +172,7 @@ export function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
         >
-          <div className="card overflow-hidden shadow-2xl">
-            <div className="flex items-center gap-2 border-b px-4 py-3" style={{ borderColor: "var(--border)" }}>
-              <GitCommitHorizontal size={14} style={{ color: "var(--brand-a)" }} />
-              <span className="font-mono text-xs" style={{ color: "var(--fg)" }}>
-                build #142 · main
-              </span>
-              <span
-                className="ml-auto flex items-center gap-1 rounded-full px-2 py-0.5 font-mono text-[10px]"
-                style={{ color: "var(--ok)", background: "color-mix(in srgb, var(--ok) 15%, transparent)" }}
-              >
-                <span className="h-1.5 w-1.5 rounded-full" style={{ background: "var(--ok)" }} />
-                passing
-              </span>
-            </div>
-            <TerminalBody />
-          </div>
+          <ProfileCard />
         </motion.div>
       </div>
     </section>

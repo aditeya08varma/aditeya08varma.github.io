@@ -14,8 +14,10 @@ export default function App() {
   return (
     <div style={{ color: "var(--fg)" }}>
       <BackgroundLayer />
+      <a href="#main" className="skip-link">Skip to content</a>
       <div className="relative z-10">
         <Nav />
+        <main id="main" tabIndex={-1} className="outline-none">
         <Hero />
         <About />
         <Education />
@@ -25,6 +27,7 @@ export default function App() {
         <Skills />
         <Publications />
         <Contact />
+        </main>
       </div>
     </div>
   );

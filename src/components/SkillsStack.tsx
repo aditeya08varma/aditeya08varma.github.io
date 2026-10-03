@@ -76,7 +76,7 @@ export function SkillsStack() {
         </div>
         <div className="min-w-0 flex-1">
           <div className="font-mono text-[11px] uppercase tracking-wider" style={{ color: "var(--brand-a)" }}>
-            Foundation — {languages.label}
+            Foundation: {languages.label}
           </div>
           <div className="mt-3 flex flex-wrap gap-1.5">
             {languages.items.map((item) => (

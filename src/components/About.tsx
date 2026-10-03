@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { about, profile } from "../data/content";
+import { about } from "../data/content";
 
 export function About() {
   return (
@@ -27,9 +27,6 @@ export function About() {
         ))}
       </div>
 
-      <p className="mt-6 text-sm" style={{ color: "var(--brand-b)" }}>
-        📌 {profile.status}.
-      </p>
     </section>
   );
 }
