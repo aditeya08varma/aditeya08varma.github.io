@@ -32,7 +32,7 @@ function ProfileCard() {
               src={profile.photo}
               alt="Aditeya Varma"
               className="h-full w-full object-cover"
-              style={{ transform: "scale(1.7)", transformOrigin: "52% 40%" }}
+              style={{ objectPosition: "50% 35%" }}
             />
           </div>
         </div>
