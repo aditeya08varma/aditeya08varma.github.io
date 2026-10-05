@@ -3,6 +3,8 @@ import { motion, useInView, animate } from "framer-motion";
 import { GitPullRequest, ArrowUpRight, BookOpen } from "lucide-react";
 import { openSource } from "../data/content";
 
+type PR = { number: number; title: string; url: string; additions: number; deletions: number; story?: string };
+
 function Counter({ to }: { to: number }) {
   const ref = useRef<HTMLSpanElement | null>(null);
   const inView = useInView(ref, { once: true, margin: "-40px" });
@@ -23,13 +25,32 @@ function Counter({ to }: { to: number }) {
 
 export function OpenSource() {
   const [mergedPRs, setMergedPRs] = useState(openSource.mergedPRs);
+  const [prs, setPrs] = useState<PR[]>(openSource.pullRequests);
 
   useEffect(() => {
     const q = encodeURIComponent("repo:sageox/ox type:pr author:aditeya08varma is:merged");
-    fetch(`https://api.github.com/search/issues?q=${q}&per_page=1`)
+    fetch(`https://api.github.com/search/issues?q=${q}&per_page=50`)
       .then((r) => (r.ok ? r.json() : null))
-      .then((d) => {
-        if (d && typeof d.total_count === "number" && d.total_count > 0) setMergedPRs(d.total_count);
+      .then(async (d) => {
+        if (!d || typeof d.total_count !== "number" || d.total_count === 0) return;
+        setMergedPRs(d.total_count);
+        const known = new Map(openSource.pullRequests.map((p) => [p.number, p]));
+        const merged: PR[] = await Promise.all(
+          (d.items as any[]).map(async (it) => {
+            const old = known.get(it.number);
+            if (old) return { ...old, title: it.title };
+            let additions = 0;
+            let deletions = 0;
+            try {
+              const det = await fetch(it.pull_request.url).then((r) => r.json());
+              additions = det.additions ?? 0;
+              deletions = det.deletions ?? 0;
+            } catch {}
+            return { number: it.number, title: it.title, url: it.html_url, additions, deletions };
+          })
+        );
+        merged.sort((a, b) => a.number - b.number);
+        setPrs(merged);
       })
       .catch(() => {});
   }, []);
@@ -57,7 +78,7 @@ export function OpenSource() {
       </div>
 
       <div className="mt-8 space-y-3">
-        {openSource.pullRequests.map((pr, i) => (
+        {prs.map((pr, i) => (
           <motion.div
             key={pr.number}
             initial={{ opacity: 0, y: 10 }}
@@ -83,6 +104,7 @@ export function OpenSource() {
                   {openSource.repo} #{pr.number} · +{pr.additions} −{pr.deletions}
                 </div>
               </div>
+              {pr.story && (
               <button
                 type="button"
                 title="Read the full story"
@@ -90,13 +112,14 @@ export function OpenSource() {
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
-                  window.open(pr.story, "_blank", "noopener,noreferrer");
+                  window.open(pr.story!, "_blank", "noopener,noreferrer");
                 }}
                 className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border transition-colors hover:border-[var(--brand-a)]"
                 style={{ borderColor: "var(--border)", color: "var(--muted)" }}
               >
                 <BookOpen size={15} />
               </button>
+              )}
               <ArrowUpRight size={16} className="shrink-0" style={{ color: "var(--muted)" }} />
             </a>
           </motion.div>
